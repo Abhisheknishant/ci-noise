@@ -124,8 +124,8 @@ jobs:
   - name: "arm32"
     arch: arm64
     env:
-    - C_COMPILER=arm-linux-gnueabi-gcc
-    - CXX_COMPILER=arm-linux-gnueabi-g++
+    - C_COMPILER=arm-linux-gnueabihf-gcc
+    - CXX_COMPILER=arm-linux-gnueabihf-g++
     install:
     - dpkg -L gcc-arm-linux-gnueabihf
     - dpkg -L g++-arm-linux-gnueabihf
