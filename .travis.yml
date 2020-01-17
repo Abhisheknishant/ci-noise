@@ -17,70 +17,70 @@ env:
 
 jobs:
   include:
-  - name: "gcc amd64"
-    compiler: gcc
-    arch: amd64
+  # - name: "gcc amd64"
+  #   compiler: gcc
+  #   arch: amd64
 
-  - name: "clang amd64"
-    arch: amd64
-    compiler: clang
+  # - name: "clang amd64"
+  #   arch: amd64
+  #   compiler: clang
 
-  - name: "clang-9 asan,ubsan"
-    compiler: clang-9
-    env:
-    - C_COMPILER=clang-9
-    - CXX_COMPILER=clang++-9
-    - COMPILER_FLAGS='-fsanitize=address,undefined'
-    addons:
-      apt:
-        sources:
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
-          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-        packages:
-        - clang-9
+  # - name: "clang-9 asan,ubsan"
+  #   compiler: clang-9
+  #   env:
+  #   - C_COMPILER=clang-9
+  #   - CXX_COMPILER=clang++-9
+  #   - COMPILER_FLAGS='-fsanitize=address,undefined'
+  #   addons:
+  #     apt:
+  #       sources:
+  #       - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+  #         key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+  #       packages:
+  #       - clang-9
 
-  - name: "gcc-8 i686"
-    arch: amd64
-    compiler: gcc-8
-    env:
-    - C_COMPILER=gcc-8
-    - CXX_COMPILER=g++-8
-    - ARCH_FLAGS="-march=i686"
-    addons:
-      apt:
-        packages:
-        - libc6:i386
-        - libc6-dev:i386
-        - gcc-8:i386
-        - g++-8:i386
-        - cpp-8:i386
-        - binutils:i386
-        - binutils-i686-linux-gnu:i386
+  # - name: "gcc-8 i686"
+  #   arch: amd64
+  #   compiler: gcc-8
+  #   env:
+  #   - C_COMPILER=gcc-8
+  #   - CXX_COMPILER=g++-8
+  #   - ARCH_FLAGS="-march=i686"
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - libc6:i386
+  #       - libc6-dev:i386
+  #       - gcc-8:i386
+  #       - g++-8:i386
+  #       - cpp-8:i386
+  #       - binutils:i386
+  #       - binutils-i686-linux-gnu:i386
 
-  - name: "aarch64"
-    arch: arm64
+  # - name: "aarch64"
+  #   arch: arm64
 
-  - name: "ppc64le"
-    arch: ppc64le
-    env:
-    - ARCH_FLAGS="-mcpu=native"
-    addons:
-      apt:
-        packages:
-        - gcc
-        - g++
+  # - name: "ppc64le"
+  #   arch: ppc64le
+  #   env:
+  #   - ARCH_FLAGS="-mcpu=native"
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - gcc
+  #       - g++
 
-  - name: "-DSIMDE_NO_SHUFFLE_VECTOR"
-    env:
-    - COMPILER_FLAGS=-DSIMDE_NO_SHUFFLE_VECTOR
+  # - name: "-DSIMDE_NO_SHUFFLE_VECTOR"
+  #   env:
+  #   - COMPILER_FLAGS=-DSIMDE_NO_SHUFFLE_VECTOR
 
-  - name: "pgcc"
-    env:
-    - C_COMPILER=pgcc
-    - CXX_COMPILER=pgc++
-    - ARCH_FLAGS="-m64"
-    install:
-    - curl 'https://raw.githubusercontent.com/nemequ/pgi-travis/master/install-pgi.sh' | /bin/sh
+  # - name: "pgcc"
+  #   env:
+  #   - C_COMPILER=pgcc
+  #   - CXX_COMPILER=pgc++
+  #   - ARCH_FLAGS="-m64"
+  #   install:
+  #   - curl 'https://raw.githubusercontent.com/nemequ/pgi-travis/master/install-pgi.sh' | /bin/sh
 
   - name: "xlc"
     arch: ppc64le
@@ -92,45 +92,46 @@ jobs:
     - sudo apt-get install "xlc.${XLC_VERSION}" "xlc-license-community.${XLC_VERSION}"
     - sudo /opt/ibm/xlC/${XLC_VERSION}/bin/xlc_configure <<< 1 >/dev/null
     env:
+    - ARCH_FLAGS=-qarch=auto
     - C_COMPILER=xlc
     - CXX_COMPILER=xlc++
 
-  - name: s390x
-    arch: s390x
+  # - name: s390x
+  #   arch: s390x
 
-  - name: osx
-    os: osx
+  # - name: osx
+  #   os: osx
 
-  - name: windows
-    os: windows
-    env:
-    - ARCH_FLAGS=""
+  # - name: windows
+  #   os: windows
+  #   env:
+  #   - ARCH_FLAGS=""
 
-  - name: icc
-    compiler: icc
-    env:
-    - C_COMPILER=icc
-    - CXX_COMPILER=icpc
-    install:
-    - source /opt/intel/inteloneapi/compiler/latest/env/vars.sh
-    addons:
-      apt:
-        sources:
-        - sourceline: 'deb https://apt.repos.intel.com/oneapi all main'
-          key_url: 'https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB'
-        packages:
-        - intel-oneapi-icc
+  # - name: icc
+  #   compiler: icc
+  #   env:
+  #   - C_COMPILER=icc
+  #   - CXX_COMPILER=icpc
+  #   install:
+  #   - source /opt/intel/inteloneapi/compiler/latest/env/vars.sh
+  #   addons:
+  #     apt:
+  #       sources:
+  #       - sourceline: 'deb https://apt.repos.intel.com/oneapi all main'
+  #         key_url: 'https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB'
+  #       packages:
+  #       - intel-oneapi-icc
 
-  - name: "arm32"
-    arch: arm64
-    env:
-    - C_COMPILER=arm-linux-gnueabihf-gcc
-    - CXX_COMPILER=arm-linux-gnueabihf-g++
-    - ARCH_FLAGS="-march=armv8-a"
-    install:
-    - sudo dpkg --add-architecture armhf
-    - sudo apt-get update
-    - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf
+  # - name: "arm32"
+  #   arch: arm64
+  #   env:
+  #   - C_COMPILER=arm-linux-gnueabihf-gcc
+  #   - CXX_COMPILER=arm-linux-gnueabihf-g++
+  #   - ARCH_FLAGS="-march=armv8-a"
+  #   install:
+  #   - sudo dpkg --add-architecture armhf
+  #   - sudo apt-get update
+  #   - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf
 
   allow_failures:
   - name: xlc
