@@ -111,6 +111,8 @@ jobs:
     os: windows
     env:
     - ARCH_FLAGS=""
+    # 4799: function 'X' has no EMMS instruction
+    - COMPILER_FLAGS="/wd4799"
 
   # - name: "gcc-7 amd64"
   #   compiler: gcc
