@@ -368,10 +368,21 @@ simde_mm_andnot_si64 (simde__m64 a, simde__m64 b) {
 #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
   r.i32f = ~a.i32f & b.i32f;
 #else
+  SIMDE_ALIGN(8) int_fast32_t a_[sizeof(a) / sizeof(int_fast32_t)];
+  SIMDE_ALIGN(8) int_fast32_t b_[sizeof(a) / sizeof(int_fast32_t)];
+  SIMDE_ALIGN(8) int_fast32_t r_[sizeof(a) / sizeof(int_fast32_t)];
+
+  memcpy(a_, &a, sizeof(a));
+  memcpy(b_, &b, sizeof(b));
+
+  HEDLEY_STATIC_ASSERT(sizeof(a) == sizeof(a_), "!!!");
+
   SIMDE__VECTORIZE
-  for (size_t i = 0 ; i < (sizeof(r.i32f) / sizeof(r.i32f[0])) ; i++) {
-    r.i32f[0] = ~(a.i32f[0]) & b.i32f[0];
+  for (size_t i = 0 ; i < (sizeof(r) / sizeof(r_[0])) ; i++) {
+    r_[i] = ~(a_[i]) & b_[i];
   }
+
+  memcpy(&r, r_, sizeof(r));
 #endif
 
   return r;
