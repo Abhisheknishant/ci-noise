@@ -44,6 +44,8 @@
 #    endif
 #  elif defined(__ARM_NEON) && !defined(SIMDE_SSE_NO_NEON) && !defined(SIMDE_NO_NEON)
 #    define SIMDE_SSE_NEON
+#  elif defined(__wasm_simd128__)
+#    define SIMDE_SSE_WASM
 #  endif
 
 #  if defined(SIMDE_SSE_NATIVE) && !defined(SIMDE_MMX_NATIVE)
@@ -63,6 +65,8 @@
 #  else
 #    if defined(SIMDE_SSE_NEON)
 #      include <arm_neon.h>
+#    elif defined(SIMDE_SSE_WASM)
+#      include <wasm_simd128.h>
 #    endif
 
 #    if !defined(HEDLEY_INTEL_VERSION) && !defined(HEDLEY_EMSCRIPTEN_VERSION) && defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L) && !defined(__STDC_NO_ATOMICS__)
@@ -131,6 +135,8 @@ typedef union {
   SIMDE_ALIGN(16) uint32x4_t     neon_u32;
   SIMDE_ALIGN(16) uint64x2_t     neon_u64;
   SIMDE_ALIGN(16) float32x4_t    neon_f32;
+#elif defined(SIMDE_SSE_WASM)
+  SIMDE_ALIGN(16) v128_t         wasm;
 #endif
 } simde__m128;
 
@@ -2240,6 +2246,8 @@ simde_mm_set_ps (simde_float32 e3, simde_float32 e2, simde_float32 e1, simde_flo
 #elif defined(SIMDE_SSE_NEON)
   SIMDE_ALIGN(16) simde_float32 data[4] = { e0, e1, e2, e3 };
   r.neon_f32 = vld1q_f32(data);
+#elif defined(SIMDE_SSE_WASM)
+  r.wasm = wasm_f32x4_make(e0, e1, e2, e3);
 #else
   r.f32[0] = e0;
   r.f32[1] = e1;
