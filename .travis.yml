@@ -80,7 +80,6 @@ jobs:
   - name: "-DSIMDE_NO_SHUFFLE_VECTOR"
     env:
     - COMPILER_FLAGS=-DSIMDE_NO_SHUFFLE_VECTOR
-    - OPTIMIZATION_FLAGS=''
 
   - name: icc
     compiler: icc
