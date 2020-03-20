@@ -41,18 +41,36 @@ foreach omp_arg : ['-fopenmp-simd', '-qopenmp-simd']
 endforeach
 
 simde_native_c_flags = []
-if cc.has_argument('-march=native+simd')
-  simde_native_c_flags += '-march=native+simd'
-elif cc.has_argument('-march=native')
-  simde_native_c_flags += '-march=native'
+simde_native_cxx_flags = []
+
+arch_flags = get_option('arch_flags')
+if arch_flags == ''
+  if cc.has_argument('-march=native+simd')
+    arch_flags = '-march=native+simd'
+  elif cc.has_argument('-march=native')
+    arch_flags = '-march=native'
+  elif cc.has_argument('-mcpu=native')
+    arch_flags = '-mcpu=native'
+  endif
+endif
+if (arch_flags != '')
+  simde_native_c_flags += arch_flags
+  simde_native_cxx_flags += arch_flags
 endif
 
-simde_native_cxx_flags = []
-if cxx.has_argument('-march=native+simd')
-  simde_native_cxx_flags += '-march=native+simd'
-elif cxx.has_argument('-march=native')
-  simde_native_cxx_flags += '-march=native'
-endif
+# simde_native_c_flags = []
+# if cc.has_argument('-march=native+simd')
+#   simde_native_c_flags += '-march=native+simd'
+# elif cc.has_argument('-march=native')
+#   simde_native_c_flags += '-march=native'
+# endif
+
+# simde_native_cxx_flags = []
+# if cxx.has_argument('-march=native+simd')
+#   simde_native_cxx_flags += '-march=native+simd'
+# elif cxx.has_argument('-march=native')
+#   simde_native_cxx_flags += '-march=native'
+# endif
 
 if not c_openmp_simd
   simde_deps += dependency('openmp', required: false)
