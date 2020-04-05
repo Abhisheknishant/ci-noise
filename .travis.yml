@@ -1,0 +1,7 @@
+language: c
+dist: bionic
+
+script:
+- cat /proc/cpuinfo
+- cc -march=native -o srli srli.c
+- ./srli
