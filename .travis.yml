@@ -241,6 +241,7 @@ jobs:
   # - name: emscripten    
 
 before_install:
+- if [ "${BUILD_TYPE}" = "coverage" ]; then pip install --user cpp-coveralls; fi
 - |
   if [ "${CMAKE_GENERATOR}" = "Ninja" ]; then
     case "${TRAVIS_OS_NAME}" in
@@ -291,6 +292,9 @@ script:
       ctest --output-on-failure --interactive-debug-mode 0 -C Debug -V
     fi
   fi
+
+after_success:
+- coveralls --exclude lib --exclude test --gcov-options '\-lp'
 
 notifications:
   email: false
