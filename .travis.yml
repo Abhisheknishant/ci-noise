@@ -10,7 +10,6 @@ env:
   global:
   - BUILD_TYPE="Coverage"
   - ARCH_FLAGS="-march=native"
-  - BUILD_CPP_TESTS=ON
   - CMAKE_GENERATOR='Ninja'
   - RUN_TESTS=true
   - OPTIMIZATION_FLAGS=''
@@ -18,35 +17,47 @@ env:
 
 jobs:
   include:
-  - name: "gcc-9"
-    compiler: gcc-9
+  - name: "gcc-10"
+    compiler: gcc-10
     env:
-    - C_COMPILER=gcc-9
-    - CXX_COMPILER=g++-9
-    - COMPILER_FLAGS='-fsanitize=address,undefined'
-    - OPTIMIZATION_FLAGS=''
+    - C_COMPILER=gcc-10
+    - CXX_COMPILER=g++-10
+    - DIAGNOSTIC_FLAGS='-Wall -Wextra -Werror -fanalyzer'
     addons:
       apt:
         sources:
         - sourceline: "ppa:ubuntu-toolchain-r/test"
           key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x60c317803a41ba51845e371a1e9377a2ba9ef27f
         packages:
-        - gcc-9
-        - g++-9
+        - gcc-10
+        - g++-10
 
-  - name: "clang-10"
-    compiler: clang-10
-    env:
-    - C_COMPILER=clang-10
-    - CXX_COMPILER=clang++-10
-    - COMPILER_FLAGS='-fsanitize=address,undefined'
-    addons:
-      apt:
-        sources:
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-        packages:
-        - clang-10
+  # - name: "gcc-9"
+  #   compiler: gcc-9
+  #   env:
+  #   - C_COMPILER=gcc-9
+  #   - CXX_COMPILER=g++-9
+  #   addons:
+  #     apt:
+  #       sources:
+  #       - sourceline: "ppa:ubuntu-toolchain-r/test"
+  #         key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x60c317803a41ba51845e371a1e9377a2ba9ef27f
+  #       packages:
+  #       - gcc-9
+  #       - g++-9
+
+  # - name: "clang-10"
+  #   compiler: clang-10
+  #   env:
+  #   - C_COMPILER=clang-10
+  #   - CXX_COMPILER=clang++-10
+  #   addons:
+  #     apt:
+  #       sources:
+  #       - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+  #         key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+  #       packages:
+  #       - clang-10
 
   - name: "gcc-8 x86"
     arch: amd64
@@ -66,8 +77,8 @@ jobs:
         - binutils:i386
         - binutils-i686-linux-gnu:i386
 
-  - name: "aarch64"
-    arch: arm64
+  # - name: "aarch64"
+  #   arch: arm64
 
   - name: "ppc64le"
     arch: ppc64le
@@ -84,27 +95,27 @@ jobs:
     - COMPILER_FLAGS=-DSIMDE_NO_SHUFFLE_VECTOR
     - OPTIMIZATION_FLAGS=''
 
-  - name: "armv8-a"
-    arch: arm64
-    env:
-    - C_COMPILER=arm-linux-gnueabihf-gcc
-    - CXX_COMPILER=arm-linux-gnueabihf-g++
-    - ARCH_FLAGS="-march=armv8-a"
-    install:
-    - sudo dpkg --add-architecture armhf
-    - sudo apt-get update
-    - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf libstdc++6:armhf
+  # - name: "armv8-a"
+  #   arch: arm64
+  #   env:
+  #   - C_COMPILER=arm-linux-gnueabihf-gcc
+  #   - CXX_COMPILER=arm-linux-gnueabihf-g++
+  #   - ARCH_FLAGS="-march=armv8-a"
+  #   install:
+  #   - sudo dpkg --add-architecture armhf
+  #   - sudo apt-get update
+  #   - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf libstdc++6:armhf
 
-  - name: "armv7-a"
-    arch: arm64
-    env:
-    - C_COMPILER=arm-linux-gnueabihf-gcc
-    - CXX_COMPILER=arm-linux-gnueabihf-g++
-    - ARCH_FLAGS="-march=armv7-a"
-    install:
-    - sudo dpkg --add-architecture armhf
-    - sudo apt-get update
-    - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf libstdc++6:armhf
+  # - name: "armv7-a"
+  #   arch: arm64
+  #   env:
+  #   - C_COMPILER=arm-linux-gnueabihf-gcc
+  #   - CXX_COMPILER=arm-linux-gnueabihf-g++
+  #   - ARCH_FLAGS="-march=armv7-a"
+  #   install:
+  #   - sudo dpkg --add-architecture armhf
+  #   - sudo apt-get update
+  #   - sudo apt-get -y install crossbuild-essential-armhf libc6:armhf libstdc++6:armhf
 
   - name: icc
     compiler: icc
@@ -122,29 +133,29 @@ jobs:
         packages:
         - intel-oneapi-icc
 
-  - name: "pgcc"
-    env:
-    - C_COMPILER=pgcc
-    - CXX_COMPILER=pgc++
-    - ARCH_FLAGS="-m64"
-    - BUILD_CPP_TESTS=OFF
-    - DIAGNOSTIC_FLAGS=
-    install:
-    - curl 'https://raw.githubusercontent.com/nemequ/pgi-travis/master/install-pgi.sh' | /bin/sh
+  # - name: "pgcc"
+  #   env:
+  #   - C_COMPILER=pgcc
+  #   - CXX_COMPILER=pgc++
+  #   - ARCH_FLAGS="-m64"
+  #   - BUILD_CPP_TESTS=OFF
+  #   - DIAGNOSTIC_FLAGS=
+  #   install:
+  #   - curl 'https://raw.githubusercontent.com/nemequ/pgi-travis/master/install-pgi.sh' | /bin/sh
 
-  - name: "xlc"
-    arch: ppc64le
-    install:
-    - wget -q https://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/ubuntu/public.gpg -O- | sudo apt-key add -
-    - echo "deb https://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/ubuntu/ ${TRAVIS_DIST} main" >> /etc/apt/sources.list
-    - sudo apt-get update
-    - export XLC_VERSION="$(apt-cache search '^xlc\.[0-9]+\.[0-9]+\.[0-9]+$' | awk '{ print substr($1, 5) }')"
-    - sudo apt-get install "xlc.${XLC_VERSION}" "xlc-license-community.${XLC_VERSION}"
-    - sudo /opt/ibm/xlC/${XLC_VERSION}/bin/xlc_configure <<< 1 >/dev/null
-    env:
-    - ARCH_FLAGS=-qarch=auto
-    - C_COMPILER=xlc
-    - CXX_COMPILER=xlc++
+  # - name: "xlc"
+  #   arch: ppc64le
+  #   install:
+  #   - wget -q https://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/ubuntu/public.gpg -O- | sudo apt-key add -
+  #   - echo "deb https://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/ubuntu/ ${TRAVIS_DIST} main" >> /etc/apt/sources.list
+  #   - sudo apt-get update
+  #   - export XLC_VERSION="$(apt-cache search '^xlc\.[0-9]+\.[0-9]+\.[0-9]+$' | awk '{ print substr($1, 5) }')"
+  #   - sudo apt-get install "xlc.${XLC_VERSION}" "xlc-license-community.${XLC_VERSION}"
+  #   - sudo /opt/ibm/xlC/${XLC_VERSION}/bin/xlc_configure <<< 1 >/dev/null
+  #   env:
+  #   - ARCH_FLAGS=-qarch=auto
+  #   - C_COMPILER=xlc
+  #   - CXX_COMPILER=xlc++
 
   - name: osx
     os: osx
@@ -194,70 +205,78 @@ jobs:
         sources:
         - kalakris-cmake
 
-  - name: s390x
-    arch: s390x
+  # - name: s390x
+  #   arch: s390x
 
-  - name: amalgamate
-    if: branch = master AND type != pull_request
-    script:
-    - |
-      if [ ! -e amalgamated/x86 ]; then
-        mkdir -p amalgamated/x86;
-        (cd simde && for header in x86/*.h; do
-          ../amalgamate.py "$header" > ../amalgamated/"$header"
-        done);
-      fi
-    deploy:
-      provider: pages
-      target_branch: amalgamated
-      local_dir: amalgamated
-      github_token: $GITHUB_TOKEN
-      skip_cleanup: true
-      keep_history: true
+  # - name: amalgamate
+  #   if: branch = master AND type != pull_request
+  #   script:
+  #   - |
+  #     if [ ! -e amalgamated/x86 ]; then
+  #       mkdir -p amalgamated/x86;
+  #       (cd simde && for header in x86/*.h; do
+  #         ../amalgamate.py "$header" > ../amalgamated/"$header"
+  #       done);
+  #     fi
+  #   deploy:
+  #     provider: pages
+  #     target_branch: amalgamated
+  #     local_dir: amalgamated
+  #     github_token: $GITHUB_TOKEN
+  #     skip_cleanup: true
 
-  - name: emscripten
-    compiler: emcc
-    env:
-    - ARCH_FLAGS="-msimd128"
-    - C_COMPILER=emcc
-    - CXX_COMPILER=emcc
-    - CONFIGURE_WRAPPER=emcmake
-    - BUILD_WRAPPER=emmake
-    - EXECUTABLE_EXTENSION=.js
-    - TEST_WRAPPER="${HOME}/.jsvu/v8 --experimental-wasm-simd"
-    - OPTIMIZATION_FLAGS="-O3 -s SIMD=1"
-    addons:
-      apt:
-        packages:
-        - nodejs
-    install:
-    - |
-      git clone https://github.com/emscripten-core/emsdk.git
-      emsdk/emsdk update-tags
-      emsdk/emsdk install tot
-      emsdk/emsdk activate tot
-      source emsdk/emsdk_env.sh
-    - |
-      npm install jsvu -g
-      jsvu --os=linux64 --engines=v8
+  # - name: emscripten
+  #   compiler: emcc
+  #   env:
+  #   - ARCH_FLAGS="-msimd128"
+  #   - C_COMPILER=emcc
+  #   - CXX_COMPILER=emcc
+  #   - CONFIGURE_WRAPPER=emcmake
+  #   - BUILD_WRAPPER=emmake
+  #   - EXECUTABLE_EXTENSION=.js
+  #   - TEST_WRAPPER="${HOME}/.jsvu/v8 --experimental-wasm-simd"
+  #   - OPTIMIZATION_FLAGS="-O3 -s SIMD=1"
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - nodejs
+  #   install:
+  #   - |
+  #     git clone https://github.com/emscripten-core/emsdk.git
+  #     emsdk/emsdk update-tags
+  #     emsdk/emsdk install tot
+  #     emsdk/emsdk activate tot
+  #     source emsdk/emsdk_env.sh
+  #   - |
+  #     npm install jsvu -g
+  #     jsvu --os=linux64 --engines=v8
 
   allow_failures:
   # - name: emscripten    
 
 before_install:
 - |
-  if [ "${CMAKE_GENERATOR}" = "Ninja" ]; then
-    case "${TRAVIS_OS_NAME}" in
-      "linux")
-        sudo apt-get install -y ninja-build
-        ;;
-      "osx")
-        brew install ninja
-        ;;
-      "windows")
-        choco install ninja
-        ;;
-    esac
+  case "${TRAVIS_OS_NAME}" in
+    linux)
+      sudo apt-get install -y python3-pip python3-setuptools ninja-build
+      pip3 install meson gcovr
+      # sudo apt-get install -y meson ninja-build
+      ;;
+    "osx")
+      brew install meson ninja gcovr
+      ;;
+    "windows")
+      choco install meson ninja opencppcoverage
+      export EXEC_WRAPPER="OpenCppCoverage"
+      export EXEC_SUFFIX=".exe"
+      ;;
+  esac
+
+# Meson just uses gcov, so we use a symlink to point it to the right one.
+- |
+  GCOV="$(ls /usr/bin/gcov-* 2>/dev/null | grep -Po '/usr/bin/gcov-[0-9]+' | sort -V | tail -n1)"
+  if [ -x "${GCOV}" ]; then
+    ln -s "${GCOV}" ~/.local/bin/gcov
   fi
 
 - cat /proc/cpuinfo || true
@@ -273,28 +292,40 @@ before_install:
   if [ -n "${CXX_COMPILER}" ]; then
     export CXX="${CXX_COMPILER}"
   fi
+- export CFLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CFLAGS}"
+- export CXXFLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CXXFLAGS}"
 
 script:
-- mkdir "${TRAVIS_BUILD_DIR}/test/build" && cd "${TRAVIS_BUILD_DIR}/test/build"
 - |
-  ${CONFIGURE_WRAPPER} cmake .. \
-    -G "${CMAKE_GENERATOR}" \
-    -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
-    -DBUILD_CPP_TESTS=${BUILD_CPP_TESTS} \
-    -DCMAKE_CROSSCOMPILING_EMULATOR="${TEST_WRAPPER}" \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DCMAKE_C_FLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CFLAGS}" \
-    -DCMAKE_CXX_FLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CXXFLAGS}" \
-    ${CMAKE_ARGS} || (cat CMakeFiles/CMakeError.log && false) && \
-  ${BUILD_WRAPPER} cmake --build .
-- |
-  if [ "${RUN_TESTS}" = "true" ]; then
-    if [ "windows" != "${TRAVIS_OS_NAME}" ]; then
-      ${TEST_WRAPPER} ./run-tests${EXECUTABLE_EXTENSION}
-    else
-      ctest --output-on-failure --interactive-debug-mode 0 -C Debug -V
-    fi
-  fi
+  mkdir build && \
+  meson -Db_coverage=true -Db_sanitize=address,undefined build && \
+  ninja -C build -v && \
+  ./build/test/run-tests && \
+  ninja -C build -v coverage-xml
+
+# - mkdir "${TRAVIS_BUILD_DIR}/test/build" && cd "${TRAVIS_BUILD_DIR}/test/build"
+# - |
+#   ${CONFIGURE_WRAPPER} cmake .. \
+#     -G "${CMAKE_GENERATOR}" \
+#     -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
+#     -DBUILD_CPP_TESTS=${BUILD_CPP_TESTS} \
+#     -DCMAKE_CROSSCOMPILING_EMULATOR="${TEST_WRAPPER}" \
+#     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+#     -DCMAKE_C_FLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CFLAGS}" \
+#     -DCMAKE_CXX_FLAGS="${ARCH_FLAGS} ${OPTIMIZATION_FLAGS} ${DIAGNOSTIC_FLAGS} ${COMPILER_FLAGS} ${CXXFLAGS}" \
+#     ${CMAKE_ARGS} || (cat CMakeFiles/CMakeError.log && false) && \
+#   ${BUILD_WRAPPER} cmake --build .
+# - |
+#   if [ "${RUN_TESTS}" = "true" ]; then
+#     if [ "windows" != "${TRAVIS_OS_NAME}" ]; then
+#       ${TEST_WRAPPER} ./run-tests${EXECUTABLE_EXTENSION}
+#     else
+#       ctest --output-on-failure --interactive-debug-mode 0 -C Debug -V
+#     fi
+#   fi
+
+after_success:
+- if [ -e "build/meson-logs/coverage.xml" ]; then bash <(curl -s https://codecov.io/bash) -y .codecov.yml -f "build/meson-logs/coverage.xml"; fi
 
 notifications:
   email: false
