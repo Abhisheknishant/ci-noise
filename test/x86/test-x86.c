@@ -39,6 +39,7 @@ simde_tests_x86_get_suite(void) {
   SET_CHILDREN_FOR_ARCH(avx512bw);
   SET_CHILDREN_FOR_ARCH(avx512vl);
   SET_CHILDREN_FOR_ARCH(avx512dq);
+  SET_CHILDREN_FOR_ARCH(gfni);
   SET_CHILDREN_FOR_ARCH(svml);
 
   children[i++] = empty;
