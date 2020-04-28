@@ -89,13 +89,9 @@ simde_x_mm_gf2p8matrix_multiply_epi64_epi8 (simde__m128i x, simde__m128i A) {
     a = simde_mm_shuffle_epi8(A, simde_x_mm_set_epu64x(UINT64_C(0x08090A0B0C0D0E0F), UINT64_C(0x0001020304050607)));
     r = simde_mm_setzero_si128();
 
-<<<<<<< HEAD
-    SIMDE__VECTORIZE
-=======
     #if !defined(HEDLEY_INTEL_VERSION)
       SIMDE__VECTORIZE
     #endif
->>>>>>> a5443dc... Add gfni support in gfni.[hc]
     for (int i = 0 ; i < 8 ; i++) {
       p = simde_mm_set1_epi16(HEDLEY_STATIC_CAST(uint16_t, simde_mm_movemask_epi8(a)));
       p = simde_mm_shuffle_epi8(p, byteSelect);
@@ -466,12 +462,18 @@ simde_mm256_gf2p8mul_epi8 (simde__m256i a, simde__m256i b) {
     b_ = simde__m256i_to_private(b);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   SIMDE__VECTORIZE
 =======
   #if !defined(HEDLEY_INTEL_VERSION)
     SIMDE__VECTORIZE
   #endif
 >>>>>>> a5443dc... Add gfni support in gfni.[hc]
+=======
+#if !defined(__INTEL_COMPILER)
+  SIMDE__VECTORIZE
+#endif
+>>>>>>> ecb1e0c... gfni: skip SIMDE__VECTORIZE on ICC
   for (size_t i = 0 ; i < (sizeof(r_.m128i) / sizeof(r_.m128i[0])) ; i++) {
     r_.m128i[i] = simde_mm_gf2p8mul_epi8(a_.m128i[i], b_.m128i[i]);
   }
@@ -494,12 +496,18 @@ simde_mm512_gf2p8mul_epi8 (simde__m512i a, simde__m512i b) {
     b_ = simde__m512i_to_private(b);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   SIMDE__VECTORIZE
 =======
   #if !defined(HEDLEY_INTEL_VERSION)
     SIMDE__VECTORIZE
   #endif
 >>>>>>> a5443dc... Add gfni support in gfni.[hc]
+=======
+#if !defined(__INTEL_COMPILER)
+  SIMDE__VECTORIZE
+#endif
+>>>>>>> ecb1e0c... gfni: skip SIMDE__VECTORIZE on ICC
   for (size_t i = 0 ; i < (sizeof(r_.m128i) / sizeof(r_.m128i[0])) ; i++) {
     r_.m128i[i] = simde_mm_gf2p8mul_epi8(a_.m128i[i], b_.m128i[i]);
   }
