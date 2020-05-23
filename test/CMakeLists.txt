@@ -106,16 +106,13 @@ set(TEST_SOURCES_C
   x86/fma.c
   x86/svml.c
 
-  arm/neon/vadd.c
-  arm/neon/vdup_n.c
-  arm/neon/vmul.c
-  arm/neon/vsub.c)
+  arm/neon/add.c)
 
 set(TEST_RUNNER_SOURCES
   run-tests.c
-  x86/test-x86.c
-  arm/neon/test-neon.c
-  arm/test-arm.c)
+  x86/run-tests.c
+  arm/run-tests.c
+  arm/neon/run-tests.c)
 add_executable(run-tests ${TEST_RUNNER_SOURCES})
 set_property(TARGET run-tests PROPERTY C_STANDARD "99")
 target_link_libraries(run-tests munit)

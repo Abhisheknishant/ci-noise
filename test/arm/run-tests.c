@@ -1,6 +1,6 @@
 #include "run-tests.h"
 
-#include "../simde/hedley.h"
+#include "../../simde/hedley.h"
 
 static MunitSuite suites[] = {
   #define SIMDE_TEST_DECLARE_SUITE(name) { (char*) "/", NULL, NULL, 1, MUNIT_SUITE_OPTION_NONE },
@@ -11,13 +11,12 @@ static MunitSuite suites[] = {
 
 static MunitSuite suite = { "", NULL, suites, 1, MUNIT_SUITE_OPTION_NONE };
 
-int main(int argc, char* argv[HEDLEY_ARRAY_PARAM(argc + 1)]) {
-  {
-    size_t i = 0;
-    #define SIMDE_TEST_DECLARE_SUITE(name) suites[i++] = *HEDLEY_CONCAT3(simde_tests_, name, _get_suite)();
-    #include "declare-suites.h"
-    #undef SIMDE_TEST_DECLARE_SUITE
-  }
+MunitSuite*
+simde_tests_arm_get_suite(void) {
+  size_t i = 0;
+  #define SIMDE_TEST_DECLARE_SUITE(name) suites[i++] = *HEDLEY_CONCAT3(simde_tests_arm_, name, _get_suite)();
+  #include "declare-suites.h"
+  #undef SIMDE_TEST_DECLARE_SUITE
 
-  return munit_suite_main(&suite, NULL, argc, argv);
+  return &suite;
 }

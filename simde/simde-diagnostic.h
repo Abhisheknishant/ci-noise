@@ -214,11 +214,29 @@
   #define SIMDE_DIAGNOSTIC_DISABLE_PASS_FAILED_
 #endif
 
+#if HEDLEY_HAS_WARNING("-Wpadded")
+  #define SIMDE_DIAGNOSTIC_DISABLE_PADDED_ _Pragma("clang diagnostic ignored \"-Wpadded\"")
+#else
+  #define SIMDE_DIAGNOSTIC_DISABLE_PADDED_
+#endif
+
+#if HEDLEY_HAS_WARNING("-Wzero-as-null-pointer-constant")
+  #define SIMDE_DIAGNOSTIC_DISABLE_ZERO_AS_NULL_POINTER_CONSTANT_ _Pragma("clang diagnostic ignored \"-Wzero-as-null-pointer-constant\"")
+#else
+  #define SIMDE_DIAGNOSTIC_DISABLE_ZERO_AS_NULL_POINTER_CONSTANT_
+#endif
+
+#if HEDLEY_HAS_WARNING("-Wold-style-cast")
+  #define SIMDE_DIAGNOSTIC_DISABLE_OLD_STYLE_CAST_ _Pragma("clang diagnostic ignored \"-Wold-style-cast\"")
+#else
+  #define SIMDE_DIAGNOSTIC_DISABLE_OLD_STYLE_CAST_
+#endif
+
 /* https://github.com/nemequ/simde/issues/277 */
 #if defined(HEDLEY_GCC_VERSION) && HEDLEY_GCC_VERSION_CHECK(4,6,0) && !HEDLEY_GCC_VERSION_CHECK(6,0,0) && defined(__cplusplus)
-  #define SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE _Pragma("GCC diagnostic ignored \"-Wunused-but-set-variable\"")
+  #define SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE_ _Pragma("GCC diagnostic ignored \"-Wunused-but-set-variable\"")
 #else
-  #define SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE
+  #define SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE_
 #endif
 
 /* Some compilers, such as clang, may use `long long` for 64-bit
@@ -226,9 +244,9 @@
  * -Wc++98-compat-pedantic which says 'long long' is incompatible with
  * C++98. */
 #if HEDLEY_HAS_WARNING("-Wc++98-compat-pedantic")
-  #define SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC _Pragma("clang diagnostic ignored \"-Wc++98-compat-pedantic\"")
+  #define SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC_ _Pragma("clang diagnostic ignored \"-Wc++98-compat-pedantic\"")
 #else
-  #define SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC
+  #define SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC_
 #endif
 
 #define SIMDE_DISABLE_UNWANTED_DIAGNOSTICS \
@@ -243,7 +261,7 @@
   SIMDE_DIAGNOSTIC_DISABLE_USED_BUT_MARKED_UNUSED_ \
   SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_ \
   SIMDE_DIAGNOSTIC_DISABLE_PASS_FAILED_ \
-  SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC \
-  SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE
+  SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC_ \
+  SIMDE_DIAGNOSTIC_DISABLE_BUGGY_UNUSED_BUT_SET_VARIBALE_
 
 #endif
