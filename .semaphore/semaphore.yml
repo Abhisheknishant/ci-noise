@@ -1,4 +1,4 @@
-version: v1.0
+version: v2.0
 name: Build
 agent:
   machine:
@@ -9,6 +9,9 @@ blocks:
     task:
       jobs:
         - name: GCC
+        	matrix:
+           - env_var: GCC_VERSION
+             values: [ "7", "8" ]
           commands:
             - cat /proc/cpuinfo
             - checkout
@@ -19,14 +22,16 @@ blocks:
             - ~/.local/bin/meson setup build -Db_coverage=true
             - ninja -C build -v
             - './build/test/run-tests --list | grep -oP ''^/([^\/]+)/([^\/]+)'' | sort -u | xargs parallel ./build/test/run-tests --color always {} :::'
-            - ninja coverage-xml
+            - ninja -C build coverage-xml
       env_vars:
-        - name: GCC_VERSION
-          value: '8'
+        - name: CC
+        	value: gcc-${GCC_VERSION}
+        - name: CXX
+        	value: g++-${GCC_VERSION}
         - name: CFLAGS
-          value: '-Wextra -Werror -march=native'
+          value: "-Wextra -Werror -march=native"
         - name: CXXFLAGS
-          value: '-Wextra -Werror -march=native'
+          value: "-Wextra -Werror -march=native"
         - name: CC
           value: gcc
         - name: CXX
