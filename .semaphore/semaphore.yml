@@ -11,6 +11,7 @@ blocks:
         - name: GCC
           commands:
             - checkout
+            - git submodule update --init
             - sudo apt-get update && sudo apt-get install -y meson ninja-build parallel
             - mkdir build
             - 'CC="gcc-${GCC_VERSION}" CXX="gcc-${GCC_VERSION}" CFLAGS="-Wextra -Werror -march=native" CXXFLAGS="-Wextra -Werror -march=native" meson setup build'
