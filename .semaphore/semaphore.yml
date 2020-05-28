@@ -16,7 +16,7 @@ blocks:
             - sudo apt-get update && sudo apt-get install -y ninja-build parallel python3-pip python3-setuptools gcovr
             - pip3 install meson
             - mkdir build
-            - meson setup build -Db_coverage=true
+            - ~/.local/bin/meson setup build -Db_coverage=true
             - ninja -C build -v
             - './build/test/run-tests --list | grep -oP ''^/([^\/]+)/([^\/]+)'' | sort -u | xargs parallel ./build/test/run-tests --color always {} :::'
             - ninja coverage-xml
