@@ -1,0 +1,20 @@
+version: v1.0
+name: Build
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: 'CI'
+    task:
+      jobs:
+        - name: 'GCC'
+	        commands:
+  	        - checkout
+            - cat /proc/cpuinfo
+            # - sudo apt-get update && sudo apt-get install -y meson ninja-build parallel
+            # - mkdir build
+            # - CC="gcc-${GCC_VERSION}" CXX="gcc-${GCC_VERSION}" CFLAGS="-Wextra -Werror -march=native" CXXFLAGS="-Wextra -Werror -march=native" meson setup build
+            # - ninja -C build
+            # - ./build/test/run-tests
+            # - ./build/test/run-tests --list | grep -oP '^/([^\/]+)/([^\/]+)' | sort -u | xargs parallel ./build/test/run-tests --color always {} :::
