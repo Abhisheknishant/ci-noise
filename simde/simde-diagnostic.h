@@ -110,6 +110,9 @@
   #define SIMDE_DIAGNOSTIC_DISABLE_SIMD_PRAGMA_DEPRECATED_
 #endif
 
+/* MSVC emits a diagnostic when we call a function (like
+ * simde_mm_set_epi32) while initializing a struct.  We currently do
+ * this a *lot* in the tests. */
 #if \
   defined(HEDLEY_MSVC_VERSION)
   #define SIMDE_DIAGNOSTIC_DISABLE_NON_CONSTANT_AGGREGATE_INITIALIZER_ __pragma(warning(disable:4204))
@@ -204,6 +207,8 @@
   #define SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_ _Pragma("clang diagnostic ignored \"-Wunused-function\"")
 #elif HEDLEY_GCC_VERSION_CHECK(3,4,0)
   #define SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_ _Pragma("GCC diagnostic ignored \"-Wunused-function\"")
+#elif HEDLEY_MSVC_VERSION_CHECK(19,0,0) /* Likely goes back further */
+  #define SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_ __pragma(warning(disable:4505))
 #else
   #define SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_
 #endif
@@ -216,6 +221,8 @@
 
 #if HEDLEY_HAS_WARNING("-Wpadded")
   #define SIMDE_DIAGNOSTIC_DISABLE_PADDED_ _Pragma("clang diagnostic ignored \"-Wpadded\"")
+#elif HEDLEY_MSVC_VERSION_CHECK(19,0,0) /* Likely goes back further */
+  #define SIMDE_DIAGNOSTIC_DISABLE_PADDED_ __pragma(warning(disable:4324))
 #else
   #define SIMDE_DIAGNOSTIC_DISABLE_PADDED_
 #endif
@@ -230,6 +237,18 @@
   #define SIMDE_DIAGNOSTIC_DISABLE_OLD_STYLE_CAST_ _Pragma("clang diagnostic ignored \"-Wold-style-cast\"")
 #else
   #define SIMDE_DIAGNOSTIC_DISABLE_OLD_STYLE_CAST_
+#endif
+
+#if HEDLEY_HAS_WARNING("-Wcast-function-type") || HEDLEY_GCC_VERSION_CHECK(8,0,0)
+  #define SIMDE_DIAGNOSTIC_DISABLE_CAST_FUNCTION_TYPE_ _Pragma("GCC diagnostic ignored \"-Wcast-function-type\"")
+#else
+  #define SIMDE_DIAGNOSTIC_DISABLE_CAST_FUNCTION_TYPE_
+#endif
+
+#if HEDLEY_HAS_WARNING("-Wc99-extensions")
+  #define SIMDE_DIAGNOSTIC_DISABLE_C99_EXTENSIONS_ _Pragma("clang diagnostic ignored \"-Wc99-extensions\"")
+#else
+  #define SIMDE_DIAGNOSTIC_DISABLE_C99_EXTENSIONS_
 #endif
 
 /* https://github.com/nemequ/simde/issues/277 */

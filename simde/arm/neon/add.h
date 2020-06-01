@@ -49,7 +49,7 @@ simde_vadd_f32(simde_float32x2_t a, simde_float32x2_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -60,7 +60,7 @@ simde_vadd_f32(simde_float32x2_t a, simde_float32x2_t b) {
 SIMDE_FUNCTION_ATTRIBUTES
 simde_float64x1_t
 simde_vadd_f64(simde_float64x1_t a, simde_float64x1_t b) {
-  #if defined(SIMDE_ARM_NEON_A32V7_NATIVE)
+  #if defined(SIMDE_ARM_NEON_A64V8_NATIVE)
     return vadd_f64(a, b);
   #else
     simde_float64x1_private
@@ -73,7 +73,7 @@ simde_vadd_f64(simde_float64x1_t a, simde_float64x1_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -103,7 +103,7 @@ simde_vaddq_f32(simde_float32x4_t a, simde_float32x4_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -114,7 +114,7 @@ simde_vaddq_f32(simde_float32x4_t a, simde_float32x4_t b) {
 SIMDE_FUNCTION_ATTRIBUTES
 simde_float64x2_t
 simde_vaddq_f64(simde_float64x2_t a, simde_float64x2_t b) {
-  #if defined(SIMDE_ARM_NEON_A32V7_NATIVE)
+  #if defined(SIMDE_ARM_NEON_A64V8_NATIVE)
     return vaddq_f64(a, b);
   #elif defined(SIMDE_X86_SSE2_NATIVE)
     return _mm_add_pd(a, b);
@@ -133,7 +133,7 @@ simde_vaddq_f64(simde_float64x2_t a, simde_float64x2_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -159,7 +159,7 @@ simde_vadd_s8(simde_int8x8_t a, simde_int8x8_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -185,7 +185,7 @@ simde_vadd_s16(simde_int16x4_t a, simde_int16x4_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -211,7 +211,7 @@ simde_vadd_s32(simde_int32x2_t a, simde_int32x2_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -235,7 +235,7 @@ simde_vadd_s64(simde_int64x1_t a, simde_int64x1_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -265,7 +265,7 @@ simde_vaddq_s8(simde_int8x16_t a, simde_int8x16_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -295,7 +295,7 @@ simde_vaddq_s16(simde_int16x8_t a, simde_int16x8_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -325,7 +325,7 @@ simde_vaddq_s32(simde_int32x4_t a, simde_int32x4_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 
@@ -355,7 +355,7 @@ simde_vaddq_s64(simde_int64x2_t a, simde_int64x2_t b) {
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
-        r_.values[i] = a_.values[i] + b_.value[i];
+        r_.values[i] = a_.values[i] + b_.values[i];
       }
     #endif
 

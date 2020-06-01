@@ -3614,7 +3614,7 @@ test_simde_mm_or_ps(void) {
       a = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].a)),
       b = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].b)),
       r = simde_mm_castps_si128(simde_mm_or_ps(simde_mm_castsi128_ps(a), simde_mm_castsi128_ps(b)));
-    simde_test_x86_assert_equal_i32x4(r, simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].r)));
+    simde_test_x86_assert_equal_i32x4(r, simde_mm_loadu_epi32(test_vec[i].r));
   }
 
   return 0;
@@ -4618,9 +4618,9 @@ test_simde_mm_undefined_ps(void) {
 static int
 test_simde_mm_xor_ps(void) {
   struct {
-    int32_t a[4];
-    int32_t b[4];
-    int32_t r[4];
+    const int32_t a[4];
+    const int32_t b[4];
+    const int32_t r[4];
   } test_vec[] = {
     { { -INT32_C(1471749541),  INT32_C( 594543369),  INT32_C(1488726073), -INT32_C( 377183697) },
       { -INT32_C(1298589699), -INT32_C( 480283399), -INT32_C( 106049451), -INT32_C(1090298013) },
@@ -4650,10 +4650,11 @@ test_simde_mm_xor_ps(void) {
 
   for (size_t i = 0 ; i < (sizeof(test_vec) / sizeof(test_vec[0])) ; i++) {
     simde__m128i
-      a = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].a)),
-      b = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].b)),
-      r = simde_mm_castps_si128(simde_mm_xor_ps(simde_mm_castsi128_ps(a), simde_mm_castsi128_ps(b)));
-    simde_test_x86_assert_equal_i32x4(r, simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i*, test_vec[i].r)));
+      a = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i const*, test_vec[i].a)),
+      b = simde_mm_loadu_si128(SIMDE_ALIGN_CAST(simde__m128i const*, test_vec[i].b)),
+      r = simde_mm_castps_si128(simde_mm_xor_ps(simde_mm_castsi128_ps(a), simde_mm_castsi128_ps(b))),
+      e = simde_mm_loadu_epi32(SIMDE_ALIGN_CAST(simde__m128i const*, test_vec[i].r));
+    simde_test_x86_assert_equal_i32x4(r, e);
   }
 
   return 0;

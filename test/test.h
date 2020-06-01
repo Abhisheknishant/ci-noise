@@ -19,6 +19,10 @@ SIMDE_DIAGNOSTIC_DISABLE_VLA_
 SIMDE_DIAGNOSTIC_DISABLE_UNUSED_FUNCTION_
 SIMDE_DIAGNOSTIC_DISABLE_PADDED_
 SIMDE_DIAGNOSTIC_DISABLE_ZERO_AS_NULL_POINTER_CONSTANT_
+SIMDE_DIAGNOSTIC_DISABLE_CAST_FUNCTION_TYPE_
+SIMDE_DIAGNOSTIC_DISABLE_NON_CONSTANT_AGGREGATE_INITIALIZER_
+SIMDE_DIAGNOSTIC_DISABLE_C99_EXTENSIONS_
+SIMDE_DIAGNOSTIC_DISABLE_NO_EMMS_INSTRUCTION_
 
 static void
 simde_test_codegen_f32(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], simde_float32 value) {
@@ -64,10 +68,8 @@ simde_test_codegen_i8(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], int
     written = snprintf(buf, buf_len, "%12s", "INT8_MIN");
   } else if (value == INT8_MAX) {
     written = snprintf(buf, buf_len, "%12s", "INT8_MAX");
-  } else if (value < 0) {
-    written = snprintf(buf, buf_len, "%7s(%3" PRId8 ")", "-INT8_C", -value);
   } else {
-    written = snprintf(buf, buf_len, "%7s(%3" PRId8 ")", "INT8_C", value);
+    written = snprintf(buf, buf_len, "%cINT8_C(%3" PRId8 ")", (value < 0) ? '-' : ' ', HEDLEY_STATIC_CAST(int8_t, -value));
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -84,10 +86,8 @@ simde_test_codegen_i16(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], in
     written = snprintf(buf, buf_len, "%15s", "INT16_MIN");
   } else if (value == INT16_MAX) {
     written = snprintf(buf, buf_len, "%15s", "INT16_MAX");
-  } else if (value < 0) {
-    written = snprintf(buf, buf_len, "%8s(%5" PRId16 ")", "-INT16_C", -value);
   } else {
-    written = snprintf(buf, buf_len, "%8s(%5" PRId16 ")", "INT16_C", value);
+    written = snprintf(buf, buf_len, "%cINT16_C(%5" PRId16 ")", (value < 0) ? '-' : ' ', HEDLEY_STATIC_CAST(int16_t, -value));
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -104,10 +104,8 @@ simde_test_codegen_i32(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], in
     written = snprintf(buf, buf_len, "%20s", "INT32_MIN");
   } else if (value == INT32_MAX) {
     written = snprintf(buf, buf_len, "%20s", "INT32_MAX");
-  } else if (value < 0) {
-    written = snprintf(buf, buf_len, "%8s(%10" PRId32 ")", "-INT32_C", -value);
   } else {
-    written = snprintf(buf, buf_len, "%8s(%10" PRId32 ")", "INT32_C", value);
+    written = snprintf(buf, buf_len, "%cINT32_C(%10" PRId32 ")", (value < 0) ? '-' : ' ', HEDLEY_STATIC_CAST(int32_t, -value));
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -124,10 +122,8 @@ simde_test_codegen_i64(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], in
     written = snprintf(buf, buf_len, "%29s", "INT64_MIN");
   } else if (value == INT64_MAX) {
     written = snprintf(buf, buf_len, "%29s", "INT64_MAX");
-  } else if (value < 0) {
-    written = snprintf(buf, buf_len, "%8s(%19" PRId64 ")", "-INT64_C", -value);
   } else {
-    written = snprintf(buf, buf_len, "%8s(%19" PRId64 ")", "INT64_C", value);
+    written = snprintf(buf, buf_len, "%cINT64_C(%19" PRId64 ")", (value < 0) ? '-' : ' ', HEDLEY_STATIC_CAST(int64_t, -value));
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -143,7 +139,7 @@ simde_test_codegen_u8(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], uin
   if (value == INT8_MAX) {
     written = snprintf(buf, buf_len, "%12s", "UINT8_MAX");
   } else {
-    written = snprintf(buf, buf_len, "%7s(%3" PRIu8 ")", "UINT8_C", value);
+    written = snprintf(buf, buf_len, "UINT8_C(%3" PRIu8 ")", value);
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -159,7 +155,7 @@ simde_test_codegen_u16(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], ui
   if (value == INT16_MAX) {
     written = snprintf(buf, buf_len, "%15s", "UINT16_MAX");
   } else {
-    written = snprintf(buf, buf_len, "%8s(%5" PRIu16 ")", "UINT16_C", value);
+    written = snprintf(buf, buf_len, "UINT16_C(%5" PRIu16 ")", value);
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -175,7 +171,7 @@ simde_test_codegen_u32(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], ui
   if (value == INT32_MAX) {
     written = snprintf(buf, buf_len, "%20s", "UINT32_MAX");
   } else {
-    written = snprintf(buf, buf_len, "%8s(%10" PRIu32 ")", "UINT32_C", value);
+    written = snprintf(buf, buf_len, "UINT32_C(%10" PRIu32 ")", value);
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -191,7 +187,7 @@ simde_test_codegen_u64(size_t buf_len, char buf[HEDLEY_ARRAY_PARAM(buf_len)], ui
   if (value == INT64_MAX) {
     written = snprintf(buf, buf_len, "%29s", "UINT64_MAX");
   } else {
-    written = snprintf(buf, buf_len, "%8s(%20" PRIu64 ")", "UINT64_C", value);
+    written = snprintf(buf, buf_len, "UINT64_C(%20" PRIu64 ")", value);
   }
 
   if (written > HEDLEY_STATIC_CAST(int, buf_len)) {
@@ -448,6 +444,7 @@ SIMDE_TEST_GENERATE_ASSERT_EQUAL_FUNC_(uint64_t, u64, PRIu64)
   HEDLEY_DIAGNOSTIC_PUSH
   SIMDE_DIAGNOSTIC_DISABLE_CPP98_COMPAT_PEDANTIC_
   SIMDE_DIAGNOSTIC_DISABLE_OLD_STYLE_CAST_
+  SIMDE_DIAGNOSTIC_DISABLE_VARIADIC_MACROS_
   #include "munit/munit.h"
   HEDLEY_DIAGNOSTIC_POP
 

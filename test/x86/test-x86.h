@@ -3,8 +3,6 @@
 
 #include "../test.h"
 
-#pragma GCC diagnostic ignored "-Wunused-function"
-
 #define SIMDE_TEST_X86_GENERATE_FLOAT_TYPE_FUNCS_(NT, EL, EC) \
   static simde##NT \
   simde_test_x86_random_f##EL##x##EC(simde_float##EL min, simde_float##EL max) { \

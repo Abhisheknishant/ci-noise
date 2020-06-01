@@ -52,7 +52,7 @@ test_simde_mm256_set_epi8(void) {
                              a[15], a[14], a[13], a[12], a[11], a[10], a[ 9], a[ 8],
                              a[ 7], a[ 6], a[ 5], a[ 4], a[ 3], a[ 2], a[ 1], a[ 0]);
 
-    simde_test_x86_assert_equal_i8x32(simde_mm256_loadu_si256(SIMDE_ALIGN_CAST(const simde__m256i*, a)), r);
+    simde_test_x86_assert_equal_i8x32(simde_mm256_loadu_epi8(a), r);
   }
 
   return MUNIT_OK;
@@ -68,7 +68,7 @@ test_simde_mm256_set_epi16(void) {
     r = simde_mm256_set_epi16(a[15], a[14], a[13], a[12], a[11], a[10], a[ 9], a[ 8],
                               a[ 7], a[ 6], a[ 5], a[ 4], a[ 3], a[ 2], a[ 1], a[ 0]);
 
-    simde_test_x86_assert_equal_i16x16(simde_mm256_loadu_si256(SIMDE_ALIGN_CAST(const simde__m256i*, a)), r);
+    simde_test_x86_assert_equal_i16x16(simde_mm256_loadu_epi16(a), r);
   }
 
   return MUNIT_OK;
@@ -83,7 +83,7 @@ test_simde_mm256_set_epi32(void) {
     munit_rand_memory(sizeof(a), HEDLEY_REINTERPRET_CAST(uint8_t*, a));
     r = simde_mm256_set_epi32(a[7], a[6], a[5], a[4], a[3], a[2], a[1], a[0]);
 
-    simde_test_x86_assert_equal_i32x8(simde_mm256_loadu_si256(SIMDE_ALIGN_CAST(const simde__m256i*, a)), r);
+    simde_test_x86_assert_equal_i32x8(simde_mm256_loadu_epi32(a), r);
   }
 
   return MUNIT_OK;
@@ -98,7 +98,7 @@ test_simde_mm256_set_epi64x(void) {
     munit_rand_memory(sizeof(a), HEDLEY_REINTERPRET_CAST(uint8_t*, a));
     r = simde_mm256_set_epi64x(a[3], a[2], a[1], a[0]);
 
-    simde_test_x86_assert_equal_i64x4(simde_mm256_loadu_si256(SIMDE_ALIGN_CAST(const simde__m256i*, a)), r);
+    simde_test_x86_assert_equal_i64x4(simde_mm256_loadu_epi64(a), r);
   }
 
   return MUNIT_OK;

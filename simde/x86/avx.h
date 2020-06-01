@@ -3289,6 +3289,70 @@ simde_mm256_extract_epi64 (simde__m256i a, const int index)
 
 SIMDE_FUNCTION_ATTRIBUTES
 simde__m256i
+simde_mm256_loadu_epi8(void const* mem_addr) {
+  #if defined(SIMDE_X86_AVX512VL_NATIVE) && defined(SIMDE_X86_AVX512BW_NATIVE) && 0
+    return _mm256_loadu_epi8(mem_addr);
+  #elif defined(SIMDE_X86_AVX_NATIVE)
+    return _mm256_loadu_si256(HEDLEY_REINTERPRET_CAST(simde__m256i const*, mem_addr));
+  #else
+    simde__m256i_private r_;
+
+    simde_memcpy(&r_, mem_addr, sizeof(r_));
+
+    return simde__m256i_from_private(r_);
+  #endif
+}
+
+SIMDE_FUNCTION_ATTRIBUTES
+simde__m256i
+simde_mm256_loadu_epi16(void const* mem_addr) {
+  #if defined(SIMDE_X86_AVX512VL_NATIVE) && defined(SIMDE_X86_AVX512BW_NATIVE) && 0
+    return _mm256_loadu_epi16(mem_addr);
+  #elif defined(SIMDE_X86_AVX_NATIVE)
+    return _mm256_loadu_si256(HEDLEY_REINTERPRET_CAST(simde__m256i const*, mem_addr));
+  #else
+    simde__m256i_private r_;
+
+    simde_memcpy(&r_, mem_addr, sizeof(r_));
+
+    return simde__m256i_from_private(r_);
+  #endif
+}
+
+SIMDE_FUNCTION_ATTRIBUTES
+simde__m256i
+simde_mm256_loadu_epi32(void const* mem_addr) {
+  #if defined(SIMDE_X86_AVX512VL_NATIVE) && defined(SIMDE_X86_AVX512BW_NATIVE) && 0
+    return _mm256_loadu_epi32(mem_addr);
+  #elif defined(SIMDE_X86_AVX_NATIVE)
+    return _mm256_loadu_si256(HEDLEY_REINTERPRET_CAST(simde__m256i const*, mem_addr));
+  #else
+    simde__m256i_private r_;
+
+    simde_memcpy(&r_, mem_addr, sizeof(r_));
+
+    return simde__m256i_from_private(r_);
+  #endif
+}
+
+SIMDE_FUNCTION_ATTRIBUTES
+simde__m256i
+simde_mm256_loadu_epi64(void const* mem_addr) {
+  #if defined(SIMDE_X86_AVX512VL_NATIVE) && defined(SIMDE_X86_AVX512BW_NATIVE) && 0
+    return _mm256_loadu_epi64(mem_addr);
+  #elif defined(SIMDE_X86_AVX_NATIVE)
+    return _mm256_loadu_si256(HEDLEY_REINTERPRET_CAST(simde__m256i const*, mem_addr));
+  #else
+    simde__m256i_private r_;
+
+    simde_memcpy(&r_, mem_addr, sizeof(r_));
+
+    return simde__m256i_from_private(r_);
+  #endif
+}
+
+SIMDE_FUNCTION_ATTRIBUTES
+simde__m256i
 simde_mm256_lddqu_si256 (simde__m256i const * a) {
 #if defined(SIMDE_X86_AVX_NATIVE)
   return _mm256_loadu_si256(a);
