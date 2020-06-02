@@ -17,28 +17,28 @@ env:
 
 jobs:
   include:
-  - name: "gcc-8 x86"
-    if: branch != master OR type == pull_request
-    arch: amd64
-    compiler: gcc-8
-    env:
-    - C_COMPILER=gcc-8
-    - CXX_COMPILER=g++-8
-    - ARCH_FLAGS="-m32"
-    addons:
-      apt:
-        packages:
-        - libc6:i386
-        - libc6-dev:i386
-        - gcc-8:i386
-        - g++-8:i386
-        - cpp-8:i386
-        - binutils:i386
-        - binutils-i686-linux-gnu:i386
+      - name: "gcc-8 x86"
+        if: branch != master OR type == pull_request
+        arch: amd64
+        compiler: gcc-8
+        env:
+          - C_COMPILER=gcc-8
+          - CXX_COMPILER=g++-8
+          - ARCH_FLAGS="-m32"
+        addons:
+        apt:
+          packages:
+            - libc6:i386
+            - libc6-dev:i386
+            - gcc-8:i386
+            - g++-8:i386
+            - cpp-8:i386
+            - binutils:i386
+            - binutils-i686-linux-gnu:i386
 
-  - name: "aarch64"
-    if: branch != master OR type == pull_request
-    arch: arm64
+      - name: "aarch64"
+        if: branch != master OR type == pull_request
+        arch: arm64
 
 before_install:
 - |
